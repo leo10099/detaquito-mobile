@@ -1,0 +1,12 @@
+{
+  "name": "detaquito",
+  "displayName": "detaquito",
+  "expo": {
+    "name": "detaquito",
+    "slug": "detaquito",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
