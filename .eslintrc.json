@@ -1,0 +1,46 @@
+{
+	"env": {
+		"node": true
+	},
+	"parser": "@typescript-eslint/parser",
+	"extends": [
+		// react-native expo
+		"universe/native",
+		//  eslint
+		"eslint:recommended",
+		// typescript
+		"plugin:@typescript-eslint/recommended",
+		// react
+		"plugin:react/recommended",
+		// eslint-prettier-plugin
+		"plugin:prettier/recommended",
+		// eslint-config-prettier
+		"prettier",
+		"prettier/@typescript-eslint"
+	],
+	"rules": {
+		// Javavascript
+		"arrow-parens": ["error", "as-needed"],
+		"consistent-return": ["error"],
+		"import/order": "off",
+		// React
+		"react/display-name": "warn",
+		"react/style-prop-object": "off",
+		// TypeScript - ESLint
+		"@typescript-eslint/explicit-function-return-type": "off",
+		"@typescript-eslint/indent": "off",
+		"@typescript-eslint/no-empty-function": "off",
+		"@typescript-eslint/no-explicit-any": "off",
+		"@typescript-eslint/no-unused-vars": "warn",
+		// React hooks
+		"react-hooks/exhaustive-deps": "warn",
+		"react-hooks/rules-of-hooks": "error",
+		"react/require-default-props": "warn"
+	},
+	"plugins": ["react-hooks", "prettier"],
+	"settings": {
+		"react": {
+			"version": "detect"
+		}
+	}
+}

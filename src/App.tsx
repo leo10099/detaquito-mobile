@@ -1,26 +1,33 @@
-import { StatusBar } from 'expo-status-bar';
-import React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { ThemeProvider } from './styles';
-import { dark } from './theme';
+import React, { useEffect, useMemo } from 'react';
+import * as Theme from './theme';
 import { Prueba } from './App.Styles';
+import { StatusBar } from 'expo-status-bar';
+import { Text } from 'react-native';
+import { ThemeProvider } from './styles';
+import { Themes } from './typings';
+import { useTheme } from './hooks';
 
-export default function App() {
+function App() {
+	const [currentTheme, setCurrentTheme] = useTheme();
+
+	// Helpers
+	const theme = useMemo(() => {
+		return currentTheme === Themes.DARK ? Theme.dark : Theme.light;
+	}, [currentTheme]);
+
+	useEffect(() => {
+		// Test setting user preference in local storage
+		setCurrentTheme(new Date().getHours() > 16 ? 'dark' : 'light');
+	}, [setCurrentTheme]);
+
 	return (
-		<View style={styles.container}>
-			<ThemeProvider theme={dark}>
-				<Prueba>DE TAQUITO!</Prueba>
-				<StatusBar style="auto" />
-			</ThemeProvider>
-		</View>
+		<ThemeProvider theme={theme}>
+			<Prueba>
+				<Text>DE TAQUITO</Text>
+			</Prueba>
+			<StatusBar style="auto" />
+		</ThemeProvider>
 	);
 }
 
-const styles = StyleSheet.create({
-	container: {
-		flex: 1,
-		backgroundColor: '#fff',
-		alignItems: 'center',
-		justifyContent: 'center',
-	},
-});
+export default App;

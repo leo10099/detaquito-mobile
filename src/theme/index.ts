@@ -1,6 +1,5 @@
 // Enums
-import { Theme } from '~/typings';
-
+import { Themes } from '~/typings';
 // Helpers
 import { rgba } from '~/utils';
 
@@ -132,7 +131,7 @@ export const shadow = {
 };
 
 export interface ThemeInterface {
-	name: Theme;
+	name: string;
 	error: string;
 	success: string;
 	primaryLight: string;
@@ -170,7 +169,7 @@ export interface ThemeInterface {
 }
 
 export const dark: ThemeInterface = {
-	name: Theme.DARK,
+	name: Themes.DARK,
 	error: error.error300,
 	success: success.success300,
 	primaryLight: primary.primary200,
@@ -208,7 +207,7 @@ export const dark: ThemeInterface = {
 };
 
 export const light: ThemeInterface = {
-	name: Theme.LIGHT,
+	name: Themes.LIGHT,
 	error: error.error500,
 	success: success.success500,
 	primaryLight: primary.primary300,
