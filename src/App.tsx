@@ -1,15 +1,12 @@
 import React, { useEffect, useMemo } from 'react';
 import { StatusBar } from 'expo-status-bar';
 
+// Navigator
+import { RootNavigator } from '~/navigator/Root/RootNavigator';
+
 // Theming
 import * as Theme from './theme';
 import { ThemeProvider } from './styles';
-
-// Styles
-import { Prueba } from './App.Styles';
-
-// Components
-import { Text } from 'react-native';
 
 // Types
 import { Themes } from './typings';
@@ -28,15 +25,13 @@ function App() {
 	// Effects
 	useEffect(() => {
 		// Test setting user preference in local storage
-		setCurrentTheme(new Date().getHours() > 16 ? 'dark' : 'light');
+		setCurrentTheme(new Date().getHours() > 18 ? 'dark' : 'light');
 	}, [setCurrentTheme]);
 
 	return (
 		<ThemeProvider theme={theme}>
-			<Prueba>
-				<Text>DE TAQUITO</Text>
-			</Prueba>
 			<StatusBar style="auto" />
+			<RootNavigator />
 		</ThemeProvider>
 	);
 }
