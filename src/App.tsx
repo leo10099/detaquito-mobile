@@ -1,10 +1,20 @@
 import React, { useEffect, useMemo } from 'react';
-import * as Theme from './theme';
-import { Prueba } from './App.Styles';
 import { StatusBar } from 'expo-status-bar';
-import { Text } from 'react-native';
+
+// Theming
+import * as Theme from './theme';
 import { ThemeProvider } from './styles';
+
+// Styles
+import { Prueba } from './App.Styles';
+
+// Components
+import { Text } from 'react-native';
+
+// Types
 import { Themes } from './typings';
+
+// Hooks
 import { useTheme } from './hooks';
 
 function App() {
@@ -15,6 +25,7 @@ function App() {
 		return currentTheme === Themes.DARK ? Theme.dark : Theme.light;
 	}, [currentTheme]);
 
+	// Effects
 	useEffect(() => {
 		// Test setting user preference in local storage
 		setCurrentTheme(new Date().getHours() > 16 ? 'dark' : 'light');

@@ -7,7 +7,6 @@ export function useAsyncStorage(key: any) {
 
 	async function getStorageItem() {
 		const data = await AsyncStorage.getItem(key);
-		console.log('data', data);
 		setStorageItem(data);
 		setIsLoaded(true);
 	}
