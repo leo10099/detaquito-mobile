@@ -12,6 +12,10 @@ module.exports = api => {
 							rootPathPrefix: '~/',
 							rootPathSuffix: './src',
 						},
+						{
+							rootPathPrefix: '~public/',
+							rootPathSuffix: './src/screens/Public',
+						},
 					],
 				},
 			],

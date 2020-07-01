@@ -39,6 +39,9 @@
 	},
 	"plugins": ["react-hooks", "prettier"],
 	"settings": {
+		"import/resolver": {
+			"babel-plugin-root-import": {}
+		},
 		"react": {
 			"version": "detect"
 		}

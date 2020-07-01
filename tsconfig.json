@@ -2,7 +2,9 @@
 	"compilerOptions": {
 		"baseUrl": "." /* Base directory to resolve non-absolute module names. */,
 		"paths": {
-			"~/*": ["src/*"]
+			"~/*": ["src/*"],
+			"~public/*": ["src/screens/Public/*"],
+			"~private/*": ["src/screens/Private/*"]
 		},
 		"outDir": "dist",
 		"allowUnreachableCode": false,
