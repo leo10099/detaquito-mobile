@@ -1,5 +1,4 @@
-const RootNavigatorScreenOptions = {
+// Style Objects
+export const RootNavigatorScreenOptions = {
 	headerShown: false,
 };
-
-export { RootNavigatorScreenOptions };
