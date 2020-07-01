@@ -26,6 +26,7 @@
 		// React
 		"react/display-name": "warn",
 		"react/style-prop-object": "off",
+		"react/prop-types": ["error", { "ignore": ["navigation"] }],
 		// TypeScript - ESLint
 		"@typescript-eslint/explicit-function-return-type": "off",
 		"@typescript-eslint/indent": "off",
@@ -34,8 +35,7 @@
 		"@typescript-eslint/no-unused-vars": "warn",
 		// React hooks
 		"react-hooks/exhaustive-deps": "warn",
-		"react-hooks/rules-of-hooks": "error",
-		"react/require-default-props": "warn"
+		"react-hooks/rules-of-hooks": "error"
 	},
 	"plugins": ["react-hooks", "prettier"],
 	"settings": {
