@@ -17,9 +17,7 @@ export type HomeScreenProps = {
 export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 	return (
 		<Container>
-			<Text size={20} weight="bolder">
-				DE TAQUITO
-			</Text>
+			<Text size={20}>DE TAQUITO!</Text>
 			<TouchableNativeFeedback>
 				<View>
 					<Button title="REGISTRARSE" onPress={() => navigation.navigate('SignUp')} />

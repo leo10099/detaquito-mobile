@@ -1,7 +1,8 @@
 import React, { useMemo } from 'react';
 import PropTypes from 'prop-types';
-import { Text as VanillaText, StyleSheet } from 'react-native';
+import styled from '~/styles';
 import { Fonts } from '~/typings';
+import { StyleSheet } from 'react-native';
 
 type TextProps = {
 	children: React.ReactNode;
@@ -24,19 +25,16 @@ const fontWeight = StyleSheet.create({
 	},
 });
 
-export const Text: React.FC<TextProps> = ({ children, weight, size }) => {
-	const fontSize = useMemo(
-		() =>
-			StyleSheet.create({
-				size: {
-					fontSize: size,
-				},
-			}),
-		[size]
-	);
+const BaseText = styled.Text<TextProps>`
+	color: ${props => props.theme.elevation7};
+	font-size: ${props => props.size}px;
+`;
 
+export const Text: React.FC<TextProps> = ({ children, weight, size }) => {
 	return (
-		<VanillaText style={[fontWeight[weight ?? 'normal'], fontSize.size]}>{children}</VanillaText>
+		<BaseText size={size} style={fontWeight[weight ?? 'normal']}>
+			{children}
+		</BaseText>
 	);
 };
 
@@ -48,5 +46,5 @@ Text.propTypes = {
 
 Text.defaultProps = {
 	weight: 'normal',
-	size: 15,
+	size: 1,
 };
