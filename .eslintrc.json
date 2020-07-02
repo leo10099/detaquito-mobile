@@ -28,6 +28,7 @@
 		"react/style-prop-object": "off",
 		"react/prop-types": ["error", { "ignore": ["navigation"] }],
 		// TypeScript - ESLint
+		"@typescript-eslint/camelcase": "off",
 		"@typescript-eslint/explicit-function-return-type": "off",
 		"@typescript-eslint/indent": "off",
 		"@typescript-eslint/no-empty-function": "off",
