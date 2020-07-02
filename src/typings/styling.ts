@@ -5,7 +5,7 @@ export enum Themes {
 
 export enum Fonts {
 	LIGHT = 'OpenSans300',
-	NORMAL = 'OpenSans600',
+	NORMAL = 'OpenSans400',
 	BOLD = 'OpenSans600',
 	BOLDER = 'OpenSans700',
 }
