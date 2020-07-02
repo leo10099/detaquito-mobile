@@ -1,4 +1,4 @@
-import { useColorScheme } from 'react-native';
+import { useColorScheme } from 'react-native-appearance';
 
 import { useAsyncStorage } from './useAsyncStorage';
 
