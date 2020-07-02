@@ -1,6 +1,8 @@
 import React from 'react';
-import PropTypes from 'prop-types';
-import { Button, Text, TouchableNativeFeedback, View } from 'react-native';
+
+// Components
+import { Button, TouchableNativeFeedback, View } from 'react-native';
+import { Text } from '~/components';
 
 // Styles
 import { Container } from './HomeScreen.Styles';
@@ -15,7 +17,9 @@ export type HomeScreenProps = {
 export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
 	return (
 		<Container>
-			<Text>DE TAQUITO</Text>
+			<Text size={20} weight="bolder">
+				DE TAQUITO
+			</Text>
 			<TouchableNativeFeedback>
 				<View>
 					<Button title="REGISTRARSE" onPress={() => navigation.navigate('SignUp')} />

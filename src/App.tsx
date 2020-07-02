@@ -1,4 +1,13 @@
 import React, { useEffect, useMemo } from 'react';
+import {
+	useFonts,
+	OpenSans_300Light,
+	OpenSans_400Regular,
+	OpenSans_600SemiBold,
+	OpenSans_700Bold,
+} from '@expo-google-fonts/open-sans';
+
+import { AppLoading } from 'expo';
 import { StatusBar } from 'expo-status-bar';
 
 // Navigator
@@ -15,6 +24,13 @@ import { Themes } from './typings';
 import { useTheme } from './hooks';
 
 function App() {
+	// Hooks
+	const [hasFinishedLoadingFonts] = useFonts({
+		OpenSans300: OpenSans_300Light,
+		OpenSans400: OpenSans_400Regular,
+		OpenSans600: OpenSans_600SemiBold,
+		OpenSans700: OpenSans_700Bold,
+	});
 	const [currentTheme, setCurrentTheme] = useTheme();
 
 	// Helpers
@@ -27,6 +43,10 @@ function App() {
 		// Test setting user preference in local storage
 		setCurrentTheme(new Date().getHours() > 18 ? 'dark' : 'light');
 	}, [setCurrentTheme]);
+
+	if (!hasFinishedLoadingFonts) {
+		return <AppLoading />;
+	}
 
 	return (
 		<ThemeProvider theme={theme}>
