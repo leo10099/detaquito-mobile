@@ -46,5 +46,5 @@ Text.propTypes = {
 
 Text.defaultProps = {
 	weight: 'normal',
-	size: 1,
+	size: 20,
 };
