@@ -3,8 +3,9 @@
 		"baseUrl": "." /* Base directory to resolve non-absolute module names. */,
 		"paths": {
 			"~/*": ["src/*"],
-			"~public/*": ["src/screens/Public/*"],
-			"~private/*": ["src/screens/Private/*"]
+			"!": ["src/components/"],
+			"#/*": ["src/assets/"],
+			"$/*": ["src/screens/*"]
 		},
 		"outDir": "dist",
 		"allowUnreachableCode": false,
