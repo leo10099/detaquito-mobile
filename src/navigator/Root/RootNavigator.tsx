@@ -5,8 +5,8 @@ import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 // Screens
-import { HomeScreen } from '~public/Home/HomeScreen';
-import { SignUp } from '~public/SignUp/SignUp';
+import { HomeScreen } from '$/Public/Home/HomeScreen';
+import { SignUp } from '$/Public/SignUp/SignUp';
 
 // Helpers
 import { RootNavigatorScreenOptions } from './RootNavigator.helpers';

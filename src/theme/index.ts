@@ -78,34 +78,34 @@ export const gray = {
 const opacity = { umbra: 0.2, penumbra: 0.14, ambient: 0.12 };
 
 export const shadow = {
-	regular005: `0 2px 2px 0 rgba(0, 0, 0, ${opacity.penumbra}),
-	0 3px 1px -2px rgba(0, 0, 0, ${opacity.umbra}),
-	0 1px 5px 0 rgba(0, 0, 0, ${opacity.ambient});`,
-	error005: `0 2px 2px 0 ${rgba(error.error500, opacity.penumbra)},
-		0 3px 1px -2px ${rgba(error.error500, opacity.umbra)},
-		0 1px 5px 0 ${rgba(error.error500, opacity.ambient)};`,
+	regular005: `0 2px 2px 0px rgba(0, 0, 0, ${opacity.penumbra}),
+	0px 3px 1px -2px rgba(0, 0, 0, ${opacity.umbra}),
+	0px 1px 5px 0px rgba(0, 0, 0, ${opacity.ambient});`,
+	error005: `0 2px 2px 0px ${rgba(error.error500, opacity.penumbra)},
+		0px 3px 1px -2px ${rgba(error.error500, opacity.umbra)},
+		0px 1px 5px 0 ${rgba(error.error500, opacity.ambient)};`,
 
 	regular010: `0 3px 4px 0 rgba(0, 0, 0, ${opacity.penumbra}),
 	0 3px 3px -2px rgba(0, 0, 0, ${opacity.umbra}),
-	0 1px 8px 0 rgba(0, 0, 0, ${opacity.ambient});`,
+	0 1px 8px 0px rgba(0, 0, 0, ${opacity.ambient});`,
 	error010: `0 3px 4px 0 ${rgba(error.error500, opacity.penumbra)},
 	0 3px 3px -2px ${rgba(error.error500, opacity.umbra)},
-	0 1px 8px 0 ${rgba(error.error500, opacity.ambient)};`,
+	0 1px 8px 0px ${rgba(error.error500, opacity.ambient)};`,
 
 	regular020: `0 4px 5px 0 rgba(0, 0, 0, ${opacity.penumbra}),
-	0 1px 10px 0 rgba(0, 0, 0, ${opacity.umbra}),
+	0 1px 10px 0px rgba(0, 0, 0, ${opacity.umbra}),
 	0 2px 4px -1px rgba(0, 0, 0,${opacity.ambient});`,
 	error020: `0 4px 5px ${rgba(error.error500, opacity.penumbra)},
 		0 1px 10px 0 ${rgba(error.error500, opacity.umbra)},
 		0 2px 4px -1px ${rgba(error.error500, opacity.ambient)};`,
 
 	regular030: `0 6px 10px 0 rgba(0, 0, 0, ${opacity.penumbra}),
-	0 1px 18px 0 rgba(0, 0, 0, ${opacity.umbra}),
+	0 1px 18px 0px rgba(0, 0, 0, ${opacity.umbra}),
 	0 3px 5px -1px rgba(0, 0, 0, ${opacity.ambient});
 	`,
-	error030: `0 6px 10px 0 ${rgba(error.error500, opacity.penumbra)},
-	0 1px 18px 0 ${rgba(error.error500, opacity.umbra)},
-	0 3px 5px -1px ${rgba(error.error500, opacity.ambient)},
+	error030: `0px 6px 10px 0px ${rgba(error.error500, opacity.penumbra)},
+	0px 1px 18px 0px ${rgba(error.error500, opacity.umbra)},
+	0px 3px 5px -1px ${rgba(error.error500, opacity.ambient)},
 	`,
 
 	regular040: `0 8px 10px 1px rgba(0, 0, 0, ${opacity.penumbra}),

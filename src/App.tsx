@@ -41,7 +41,7 @@ function App() {
 	// Effects
 	useEffect(() => {
 		// Test setting user preference in local storage
-		setCurrentTheme(new Date().getHours() > 18 ? 'dark' : 'light');
+		setCurrentTheme(new Date().getHours() > 19 ? 'dark' : 'light');
 	}, [setCurrentTheme]);
 
 	if (!hasFinishedLoadingFonts) {
