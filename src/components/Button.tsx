@@ -1,13 +1,15 @@
-import React from 'react';
+import React, { useMemo } from 'react';
+import { StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import styled from '~/styles';
+import Ripple from 'react-native-material-ripple';
 import { Text } from './Text';
 import { useTheme } from 'styled-components/native';
 import { ThemeInterface } from '~/theme';
 
 interface BaseButtonProps {
 	children: string | React.ReactChild;
-	onClick?: (e: React.MouseEvent<HTMLButtonElement>) => void;
+	onPress: () => void;
 	isBlock?: boolean;
 	isDisabled?: boolean;
 	isLoading?: boolean;
@@ -16,15 +18,13 @@ interface BaseButtonProps {
 	variant: 'default' | 'primary';
 }
 
-const BaseButton = styled.TouchableOpacity<BaseButtonProps>`
+const BaseButton = styled.TouchableHighlight.attrs({ activeOpacity: 1 })<BaseButtonProps>`
 	border-radius: ${({ rounded }) => (rounded ? '10px' : '4px')};
-	height: 48px;
 	letter-spacing: 0.6px;
-	max-width: 300px;
 	display: flex;
+	height: 48px;
 	margin: ${({ margin }) => (margin ? margin : '0')};
 	justify-content: center;
-	width: ${({ isBlock }) => (isBlock ? '100%' : 'auto')};
 `;
 const PrimaryButton = styled(BaseButton)`
 	background-color: ${({ theme }) =>
@@ -33,7 +33,7 @@ const PrimaryButton = styled(BaseButton)`
 
 export const Button: React.FC<BaseButtonProps> = ({
 	children,
-	onClick,
+	onPress,
 	isBlock,
 	isDisabled,
 	isLoading,
@@ -43,38 +43,66 @@ export const Button: React.FC<BaseButtonProps> = ({
 }) => {
 	const theme = useTheme() as ThemeInterface;
 
+	const rippleStyles = useMemo(
+		() =>
+			StyleSheet.create({
+				styles: {
+					height: 48,
+					alignSelf: 'center',
+					maxWidth: 300,
+					margin: margin ? margin : 'auto',
+					width: isBlock ? 300 : 'auto',
+				},
+			}),
+		[isBlock, margin]
+	);
+
 	switch (variant) {
 		case 'primary':
 			return (
-				<PrimaryButton
-					disabled={isDisabled}
-					isBlock={isBlock}
-					isLoading={isLoading}
-					margin={margin}
-					onClick={onClick}
-					rounded={rounded}
-					variant={variant}
+				<Ripple
+					style={rippleStyles.styles}
+					rippleOpacity={0.5}
+					rippleColor={theme.elevation4}
+					onPress={onPress}
 				>
-					<Text color={theme.elevation1} align="center" weight="bold" size={14}>
-						{children}
-					</Text>
-				</PrimaryButton>
+					<PrimaryButton
+						underlayColor={theme.name === 'dark' ? theme.primaryLight : theme.primaryMain}
+						disabled={isDisabled}
+						isBlock={isBlock}
+						isLoading={isLoading}
+						margin={margin}
+						rounded={rounded}
+						variant={variant}
+					>
+						<Text color={theme.elevation1} align="center" weight="bold" size={14}>
+							{children}
+						</Text>
+					</PrimaryButton>
+				</Ripple>
 			);
 		default:
 			return (
-				<BaseButton
-					disabled={isDisabled}
-					isBlock={isBlock}
-					isLoading={isLoading}
-					margin={margin}
-					onClick={onClick}
-					rounded={rounded}
-					variant={variant}
+				<Ripple
+					style={rippleStyles.styles}
+					rippleOpacity={0.5}
+					rippleColor={theme.elevation4}
+					onPress={onPress}
 				>
-					<Text align="center" weight="bold" size={14}>
-						{children}
-					</Text>
-				</BaseButton>
+					<BaseButton
+						underlayColor={theme.name === 'dark' ? theme.primaryLight : theme.primaryMain}
+						disabled={isDisabled}
+						isBlock={isBlock}
+						isLoading={isLoading}
+						margin={margin}
+						rounded={rounded}
+						variant={variant}
+					>
+						<Text align="center" weight="bold" size={14}>
+							{children}
+						</Text>
+					</BaseButton>
+				</Ripple>
 			);
 	}
 };
@@ -86,7 +114,7 @@ Button.propTypes = {
 	isDisabled: PropTypes.bool,
 	isLoading: PropTypes.bool,
 	margin: PropTypes.string,
-	onClick: PropTypes.func,
+	onPress: PropTypes.func.isRequired,
 	rounded: PropTypes.bool,
 	variant: PropTypes.oneOf<BaseButtonProps['variant']>(['default', 'primary']).isRequired,
 };
@@ -97,7 +125,7 @@ Button.defaultProps = {
 	isDisabled: false,
 	isLoading: false,
 	margin: '',
-	onClick: () => null,
+	onPress: () => null,
 	rounded: false,
 	variant: 'default',
 };

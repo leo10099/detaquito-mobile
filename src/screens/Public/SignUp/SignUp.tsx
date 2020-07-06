@@ -11,6 +11,7 @@ export const SignUp = () => {
 	return (
 		<Container>
 			<Image source={Logo} width={120} heigth={80} />
+
 			<TextInput autoCompleteType="email" placeholder="E-mail" keyboardType="default" />
 			<TextInput
 				autoCompleteType="username"
@@ -20,7 +21,7 @@ export const SignUp = () => {
 			<TextInput autoCompleteType="password" placeholder="Contraseña" keyboardType="default" />
 			<TextInput autoCompleteType="password" placeholder="Contraseña" keyboardType="default" />
 
-			<Button variant="primary" isBlock>
+			<Button variant="primary" isBlock onPress={() => console.log('Pressed!')}>
 				Continuar
 			</Button>
 		</Container>
