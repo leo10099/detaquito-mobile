@@ -58,6 +58,6 @@ export const FlexRowCentered = () => css`
 	justify-content: center;
 `;
 
-export const ContainerPadding = () => css`
-	padding: 64px 10px 10px 10px;
+export const ContentPadding = () => css`
+	padding: 64px 10px 48px 10px;
 `;
