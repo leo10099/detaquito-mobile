@@ -14,24 +14,28 @@ export const SignUp = () => {
 
 				<TextInput
 					autoCompleteType="email"
-					marginTop={40}
-					placeholder="E-mail"
-					keyboardType="default"
-				/>
-				<TextInput
-					autoCompleteType="username"
+					label="Tu Email"
 					marginTop={40}
 					placeholder="usuario@ejemplo.com"
 					keyboardType="default"
 				/>
 				<TextInput
+					autoCompleteType="username"
+					label="Tu nombre de usuario"
+					marginTop={40}
+					placeholder="Nombre"
+					keyboardType="default"
+				/>
+				<TextInput
 					autoCompleteType="password"
+					label="Tu contraseña"
 					marginTop={40}
 					placeholder="Contraseña"
 					keyboardType="default"
 				/>
 				<TextInput
 					autoCompleteType="password"
+					label="Confirma tu contraseña"
 					placeholder="Contraseña"
 					keyboardType="default"
 					marginTop={40}
