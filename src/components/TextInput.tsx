@@ -8,6 +8,8 @@ interface TextInputProps {
 	autoCompleteType: 'password' | 'username' | 'email' | 'name';
 	keyboardType: 'default' | 'number-pad' | 'numeric' | 'email-address';
 	maxLength?: number;
+	marginBottom?: number;
+	marginTop?: number;
 	minLenght?: number;
 	onBlur?: () => void;
 	onChange?: () => void;
@@ -23,6 +25,8 @@ const BaseTextInput = styled.TextInput<TextInputProps>`
 	border-width: 1.4px;
 	border-color: ${({ theme }) => theme.primaryLight};
 	height: 50px;
+	margin-bottom: ${({ marginBottom }) => marginBottom}px;
+	margin-top: ${({ marginTop }) => marginTop}px;
 	padding: 10px;
 	max-width: 300px;
 	width: 90%;
@@ -32,6 +36,8 @@ export const TextInput: React.FC<TextInputProps> = ({
 	autoCompleteType,
 	keyboardType,
 	maxLength,
+	marginBottom,
+	marginTop,
 	minLenght,
 	onBlur,
 	onChange,
@@ -48,6 +54,8 @@ export const TextInput: React.FC<TextInputProps> = ({
 			autoCorrect={false}
 			keyBoardType={keyboardType}
 			maxLength={maxLength}
+			marginBottom={marginBottom}
+			marginTop={marginTop}
 			minLenght={minLenght}
 			onBlur={onBlur}
 			onChange={onChange}
@@ -74,6 +82,8 @@ TextInput.propTypes = {
 		'numeric',
 		'email-address',
 	]).isRequired,
+	marginBottom: PropTypes.number,
+	marginTop: PropTypes.number,
 	maxLength: PropTypes.number,
 	minLenght: PropTypes.number,
 	onBlur: PropTypes.func,
@@ -86,6 +96,8 @@ TextInput.propTypes = {
 
 TextInput.defaultProps = {
 	maxLength: 200,
+	marginBottom: 0,
+	marginTop: 0,
 	minLenght: 0,
 	onBlur: () => null,
 	onChange: () => null,
