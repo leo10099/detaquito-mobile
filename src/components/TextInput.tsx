@@ -1,26 +1,30 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import styled from '~/styles';
+import Popover, { PopoverMode, PopoverPlacement } from 'react-native-popover-view';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { useTheme } from 'styled-components/native';
 import { gray, ThemeInterface } from '~/theme';
 import { Text } from './Text';
-import { View } from 'react-native';
-import Popover, { PopoverMode, PopoverPlacement } from 'react-native-popover-view';
-import Icon from 'react-native-vector-icons/FontAwesome';
+import { View, StyleProp, ViewStyle } from 'react-native';
 
 interface TextInputProps {
 	autoCompleteType: 'password' | 'username' | 'email' | 'name';
+	elevation?: number;
 	keyboardType: 'default' | 'number-pad' | 'numeric' | 'email-address';
+	isPopoverVisible?: boolean;
 	label?: string;
 	maxLength?: number;
 	marginBottom?: number;
 	marginTop?: number;
-	minLenght?: number;
+	minLength?: number;
 	onBlur?: () => void;
 	onChange?: () => void;
 	onChangeText?: () => void;
 	onFocus?: () => void;
 	placeholder?: string;
+	popoverText?: string;
+	popoverPressHandler?: (boolean) => void;
 	textAlign?: 'center' | 'left' | 'right';
 }
 
@@ -45,12 +49,12 @@ const BaseTextInput = styled.TextInput<TextInputProps>`
 	height: 50px;
 	max-width: 300px;
 	padding: 0 20px 0 10px;
-	elevation: 0;
-	width: 90%;
+	elevation: ${({ elevation }) => elevation};
+	width: 100%;
 	z-index: 0;
 `;
 
-export const Label = styled.Text`
+const Label = styled.Text`
 	text-align: left;
 	margin-right: 6px;
 	color: ${({ theme }) => theme.elevation6};
@@ -59,63 +63,78 @@ export const Label = styled.Text`
 	padding-bottom: 10px;
 `;
 
+const popoverArrowStyles = { backgroundColor: 'rgba(48, 48, 48, 0.8)' };
+
+const popoverStyles = {
+	backgroundColor: gray.gray600,
+	right: 10,
+	padding: 18,
+	opacity: 0.9,
+};
+
+const popoverAnimationConfig = { delay: 0 };
+
+const iconStyle = { top: 3 };
+
+const extraInfoContainer = {
+	display: 'flex',
+	flexDirection: 'row',
+	width: '100%',
+} as StyleProp<ViewStyle>;
+
 export const TextInput: React.FC<TextInputProps> = ({
 	autoCompleteType,
+	elevation,
 	keyboardType,
+	isPopoverVisible,
 	label,
 	maxLength,
 	marginBottom,
 	marginTop,
-	minLenght,
+	minLength,
 	onBlur,
 	onChange,
 	onChangeText,
 	onFocus,
 	placeholder,
+	popoverText,
+	popoverPressHandler,
 	textAlign,
 }) => {
 	const theme = useTheme() as ThemeInterface;
-	const [showPopover, setShowPopover] = useState(false);
+
+	const popoverIconPressHandler = () =>
+		popoverPressHandler && popoverPressHandler(currentValue => !currentValue);
 
 	return (
 		<InputContainer marginBottom={marginBottom} marginTop={marginTop}>
-			<View
-				style={{
-					display: 'flex',
-					flexDirection: 'row',
-					width: '100%',
-				}}
-			>
+			<View style={extraInfoContainer}>
 				<Label>{label}</Label>
-				<Popover
-					mode={PopoverMode.TOOLTIP}
-					placement={PopoverPlacement.AUTO}
-					isVisible={showPopover}
-					arrowStyle={{ backgroundColor: gray.gray600, opacity: 0.9 }}
-					popoverStyle={{
-						backgroundColor: gray.gray600,
-						right: 10,
-						padding: 20,
-						opacity: 0.9,
-						zIndex: 1000,
-					}}
-					from={
-						<Icon
-							name="question-circle"
-							solid
-							onPress={() => setShowPopover(true)}
-							size={18}
-							style={{ top: 4.5 }}
-							color={gray.gray300}
-						/>
-					}
-				>
-					<View>
-						<Text color="#fff" weight="bold" size={12}>
-							This is the contents of the popover
+
+				{!!popoverText && (
+					<Popover
+						animationConfig={popoverAnimationConfig}
+						isVisible={isPopoverVisible}
+						mode={PopoverMode.TOOLTIP}
+						placement={PopoverPlacement.AUTO}
+						arrowStyle={popoverArrowStyles}
+						popoverStyle={popoverStyles}
+						from={
+							<Icon
+								name="question-circle"
+								solid
+								onPress={popoverIconPressHandler}
+								size={20}
+								style={iconStyle}
+								color={gray.gray300}
+							/>
+						}
+					>
+						<Text color="#fff" weight="bold" size={12} align="center">
+							{popoverText}
 						</Text>
-					</View>
-				</Popover>
+					</Popover>
+				)}
 			</View>
 
 			<BaseTextInput
@@ -123,7 +142,7 @@ export const TextInput: React.FC<TextInputProps> = ({
 				autoCorrect={false}
 				keyBoardType={keyboardType}
 				maxLength={maxLength}
-				minLenght={minLenght}
+				minLength={minLength}
 				onBlur={onBlur}
 				onChange={onChange}
 				onChangeText={onChangeText}
@@ -131,7 +150,7 @@ export const TextInput: React.FC<TextInputProps> = ({
 				placeholder={placeholder}
 				placeholderTextColor={theme.name === 'dark' ? theme.elevation5 : theme.elevation4}
 				textAlign={textAlign}
-				elevation={showPopover ? 0 : 4}
+				elevation={elevation}
 			/>
 		</InputContainer>
 	);
@@ -144,34 +163,42 @@ TextInput.propTypes = {
 		'email',
 		'name',
 	]).isRequired,
+	elevation: PropTypes.number,
 	keyboardType: PropTypes.oneOf<TextInputProps['keyboardType']>([
 		'default',
 		'number-pad',
 		'numeric',
 		'email-address',
 	]).isRequired,
+	isPopoverVisible: PropTypes.bool,
 	label: PropTypes.string,
 	marginBottom: PropTypes.number,
 	marginTop: PropTypes.number,
 	maxLength: PropTypes.number,
-	minLenght: PropTypes.number,
+	minLength: PropTypes.number,
 	onBlur: PropTypes.func,
 	onChange: PropTypes.func,
 	onChangeText: PropTypes.func,
 	onFocus: PropTypes.func,
 	placeholder: PropTypes.string,
+	popoverPressHandler: PropTypes.func,
+	popoverText: PropTypes.string,
 	textAlign: PropTypes.oneOf<TextInputProps['textAlign']>(['left', 'center', 'right']),
 };
 
 TextInput.defaultProps = {
-	maxLength: 200,
+	elevation: 4,
+	isPopoverVisible: false,
 	marginBottom: 0,
 	marginTop: 0,
-	minLenght: 0,
+	maxLength: 200,
+	minLength: 0,
 	onBlur: () => null,
 	onChange: () => null,
 	onChangeText: () => null,
 	onFocus: () => null,
 	placeholder: '',
+	popoverPressHandler: () => null,
+	popoverText: '',
 	textAlign: 'left',
 };
