@@ -1,8 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import styled from '~/styles';
 import { useTheme } from 'styled-components/native';
-import { ThemeInterface } from '~/theme';
+import { gray, ThemeInterface } from '~/theme';
+import { Text } from './Text';
+import { View } from 'react-native';
+import Popover, { PopoverMode, PopoverPlacement } from 'react-native-popover-view';
+import Icon from 'react-native-vector-icons/FontAwesome';
 
 interface TextInputProps {
 	autoCompleteType: 'password' | 'username' | 'email' | 'name';
@@ -41,12 +45,14 @@ const BaseTextInput = styled.TextInput<TextInputProps>`
 	height: 50px;
 	max-width: 300px;
 	padding: 0 20px 0 10px;
-	position: relative;
-	width: 100%;
+	elevation: 0;
+	width: 90%;
+	z-index: 0;
 `;
 
 export const Label = styled.Text`
-	align-self: flex-start;
+	text-align: left;
+	margin-right: 6px;
 	color: ${({ theme }) => theme.elevation6};
 	font-size: 16px;
 	letter-spacing: 1.1px;
@@ -69,10 +75,49 @@ export const TextInput: React.FC<TextInputProps> = ({
 	textAlign,
 }) => {
 	const theme = useTheme() as ThemeInterface;
+	const [showPopover, setShowPopover] = useState(false);
 
 	return (
 		<InputContainer marginBottom={marginBottom} marginTop={marginTop}>
-			<Label>{label}</Label>
+			<View
+				style={{
+					display: 'flex',
+					flexDirection: 'row',
+					width: '100%',
+				}}
+			>
+				<Label>{label}</Label>
+				<Popover
+					mode={PopoverMode.TOOLTIP}
+					placement={PopoverPlacement.AUTO}
+					isVisible={showPopover}
+					arrowStyle={{ backgroundColor: gray.gray600, opacity: 0.9 }}
+					popoverStyle={{
+						backgroundColor: gray.gray600,
+						right: 10,
+						padding: 20,
+						opacity: 0.9,
+						zIndex: 1000,
+					}}
+					from={
+						<Icon
+							name="question-circle"
+							solid
+							onPress={() => setShowPopover(true)}
+							size={18}
+							style={{ top: 4.5 }}
+							color={gray.gray300}
+						/>
+					}
+				>
+					<View>
+						<Text color="#fff" weight="bold" size={12}>
+							This is the contents of the popover
+						</Text>
+					</View>
+				</Popover>
+			</View>
+
 			<BaseTextInput
 				autoCompleteType={autoCompleteType}
 				autoCorrect={false}
@@ -86,7 +131,7 @@ export const TextInput: React.FC<TextInputProps> = ({
 				placeholder={placeholder}
 				placeholderTextColor={theme.name === 'dark' ? theme.elevation5 : theme.elevation4}
 				textAlign={textAlign}
-				elevation={4}
+				elevation={showPopover ? 0 : 4}
 			/>
 		</InputContainer>
 	);
