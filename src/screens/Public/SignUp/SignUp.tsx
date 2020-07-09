@@ -33,6 +33,8 @@ export const SignUp = () => {
 						label="Tu Email"
 						marginTop={40}
 						placeholder="usuario@ejemplo.com"
+						hasError
+						errorMessage="Prueba"
 					/>
 					<TextInput
 						autoCompleteType="username"

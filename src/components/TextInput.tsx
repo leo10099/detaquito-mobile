@@ -8,7 +8,7 @@ import { gray, ThemeInterface } from '~/theme';
 import { Text } from './Text';
 import { View, StyleProp, ViewStyle } from 'react-native';
 
-interface TextInputProps {
+interface BaseInputProps {
 	autoCompleteType: 'password' | 'username' | 'email' | 'name';
 	elevation?: number;
 	keyboardType: 'default' | 'number-pad' | 'numeric' | 'email-address';
@@ -28,7 +28,14 @@ interface TextInputProps {
 	textAlign?: 'center' | 'left' | 'right';
 }
 
-const InputContainer = styled.View<TextInputProps>`
+interface ErrorMessageProps {
+	hasError?: boolean;
+	errorMessage?: string;
+}
+
+type TextInputProps = BaseInputProps & ErrorMessageProps;
+
+const InputContainer = styled.View<BaseInputProps>`
 	align-content: center;
 	align-items: center;
 	flex: 1;
@@ -41,26 +48,34 @@ const InputContainer = styled.View<TextInputProps>`
 	width: 100%;
 `;
 
-const BaseTextInput = styled.TextInput<TextInputProps>`
+const BaseTextInput = styled.TextInput<BaseInputProps>`
 	background-color: ${({ theme }) => theme.background};
+	border-color: ${({ theme }) => theme.primaryLight};
 	border-radius: 4px;
 	border-width: 1.4px;
-	border-color: ${({ theme }) => theme.primaryLight};
+	color: ${({ theme }) => theme.elevation7};
+	elevation: ${({ elevation }) => elevation};
 	height: 50px;
 	max-width: 300px;
 	padding: 0 20px 0 10px;
-	elevation: ${({ elevation }) => elevation};
 	width: 100%;
-	z-index: 0;
 `;
 
 const Label = styled.Text`
-	text-align: left;
-	margin-right: 6px;
 	color: ${({ theme }) => theme.elevation6};
 	font-size: 16px;
 	letter-spacing: 1.1px;
+	margin-right: 6px;
 	padding-bottom: 10px;
+	text-align: left;
+`;
+
+const ErrorMessage = styled.Text<ErrorMessageProps>`
+	align-self: flex-start;
+	color: ${({ theme }) => theme.error};
+	letter-spacing: 0.5px;
+	opacity: ${({ hasError }) => (hasError ? 1 : 0)};
+	padding-top: 6px;
 `;
 
 const popoverArrowStyles = { backgroundColor: 'rgba(48, 48, 48, 0.8)' };
@@ -85,20 +100,22 @@ const extraInfoContainer = {
 export const TextInput: React.FC<TextInputProps> = ({
 	autoCompleteType,
 	elevation,
-	keyboardType,
+	errorMessage,
+	hasError,
 	isPopoverVisible,
+	keyboardType,
 	label,
-	maxLength,
 	marginBottom,
 	marginTop,
+	maxLength,
 	minLength,
 	onBlur,
 	onChange,
 	onChangeText,
 	onFocus,
 	placeholder,
-	popoverText,
 	popoverPressHandler,
+	popoverText,
 	textAlign,
 }) => {
 	const theme = useTheme() as ThemeInterface;
@@ -152,6 +169,8 @@ export const TextInput: React.FC<TextInputProps> = ({
 				textAlign={textAlign}
 				elevation={elevation}
 			/>
+
+			{hasError && errorMessage && <ErrorMessage hasError={hasError}>{errorMessage}</ErrorMessage>}
 		</InputContainer>
 	);
 };
@@ -164,13 +183,15 @@ TextInput.propTypes = {
 		'name',
 	]).isRequired,
 	elevation: PropTypes.number,
+	errorMessage: PropTypes.string,
+	hasError: PropTypes.bool,
+	isPopoverVisible: PropTypes.bool,
 	keyboardType: PropTypes.oneOf<TextInputProps['keyboardType']>([
 		'default',
 		'number-pad',
 		'numeric',
 		'email-address',
 	]).isRequired,
-	isPopoverVisible: PropTypes.bool,
 	label: PropTypes.string,
 	marginBottom: PropTypes.number,
 	marginTop: PropTypes.number,
@@ -187,7 +208,9 @@ TextInput.propTypes = {
 };
 
 TextInput.defaultProps = {
+	hasError: false,
 	elevation: 4,
+	errorMessage: '',
 	isPopoverVisible: false,
 	marginBottom: 0,
 	marginTop: 0,
