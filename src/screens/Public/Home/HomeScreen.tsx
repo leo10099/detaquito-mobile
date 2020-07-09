@@ -10,11 +10,20 @@ import { Container } from './HomeScreen.Styles';
 // Types
 import { HomeScreenNavigationProps } from '~/typings/navigation';
 
+// Hooks
+import { useSelector } from 'react-redux';
+
+// Selectors
+import { selectAuth } from '~/features/Auth/Auth.selectors';
+
 export type HomeScreenProps = {
 	navigation: HomeScreenNavigationProps;
 };
 
 export const HomeScreen: React.FC<HomeScreenProps> = ({ navigation }) => {
+	const auth = useSelector(selectAuth);
+	console.log(auth);
+
 	return (
 		<Container>
 			<Text>DE TAQUITO!</Text>

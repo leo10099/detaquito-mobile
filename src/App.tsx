@@ -23,6 +23,10 @@ import { Themes } from './typings';
 // Hooks
 import { useTheme } from './hooks';
 
+// Redux
+import { Provider } from 'react-redux';
+import store from './store';
+
 function App() {
 	// Hooks
 	const [hasFinishedLoadingFonts] = useFonts({
@@ -51,7 +55,9 @@ function App() {
 	return (
 		<ThemeProvider theme={theme}>
 			<StatusBar style="auto" />
-			<RootNavigator />
+			<Provider store={store}>
+				<RootNavigator />
+			</Provider>
 		</ThemeProvider>
 	);
 }
