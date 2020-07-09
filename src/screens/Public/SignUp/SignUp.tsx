@@ -7,8 +7,45 @@ import { TouchListener } from './SignUp.Styles';
 // Assets
 import Logo from '#/img/logo.png';
 
+// Hooks
+import { useFormInput } from '~/hooks';
+
+// Validation helpers
+import { aliasValidation, emailValidation, passwordValidation } from '~/utils';
+
 export const SignUp = () => {
 	// Local State
+	const {
+		inputValue: email,
+		setValue: setEmail,
+		hasError: emailHasError,
+		errorMessage: emailErrorMessage,
+		setError: setEmailError,
+		validate: validateEmail,
+	} = useFormInput('', emailValidation);
+	const {
+		inputValue: alias,
+		setValue: setAlias,
+		hasError: aliasHasError,
+		errorMessage: aliasErrorMessage,
+		setError: setAliasError,
+		validate: validateAlias,
+	} = useFormInput('', aliasValidation);
+	const {
+		inputValue: password,
+		setValue: setPassword,
+		hasError: passwordHasError,
+		errorMessage: passwordErrorMessage,
+		validate: validatePassword,
+	} = useFormInput('', passwordValidation);
+	const {
+		inputValue: passwordConfirmation,
+		setValue: setPasswordConfirmation,
+		hasError: passwordConfirmationHasError,
+		errorMessage: passwordConfirmationErrorMessage,
+		setError: setPasswordError,
+		validate: validatePasswordConfirm,
+	} = useFormInput('', passwordValidation);
 	const [isAliasPopoverOpen, setIsAliasPopoverOpen] = useState(false);
 	const [isPasswordPopoverOpen, setIsPasswordPopoverOpen] = useState(false);
 
@@ -29,9 +66,13 @@ export const SignUp = () => {
 					<TextInput
 						autoCompleteType="email"
 						elevation={isAliasPopoverOpen ? 0 : 4}
+						errorMessage={emailErrorMessage}
+						hasError={emailHasError}
 						keyboardType="default"
 						label="Tu Email"
 						marginTop={40}
+						onBlur={validateEmail}
+						onChangeText={setEmail}
 						placeholder="usuario@ejemplo.com"
 					/>
 					<TextInput

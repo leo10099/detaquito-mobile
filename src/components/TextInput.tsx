@@ -20,12 +20,13 @@ interface BaseInputProps {
 	minLength?: number;
 	onBlur?: () => void;
 	onChange?: () => void;
-	onChangeText?: () => void;
+	onChangeText?: (string) => void;
 	onFocus?: () => void;
 	placeholder?: string;
 	popoverText?: string;
 	popoverPressHandler?: (boolean) => void;
 	textAlign?: 'center' | 'left' | 'right';
+	ref?: React.MutableRefObject<any>;
 }
 
 interface ErrorMessageProps {
@@ -116,6 +117,8 @@ export const TextInput: React.FC<TextInputProps> = ({
 	placeholder,
 	popoverPressHandler,
 	popoverText,
+	// eslint-disable-next-line react/prop-types
+	ref,
 	textAlign,
 }) => {
 	const theme = useTheme() as ThemeInterface;
@@ -157,17 +160,18 @@ export const TextInput: React.FC<TextInputProps> = ({
 			<BaseTextInput
 				autoCompleteType={autoCompleteType}
 				autoCorrect={false}
+				blurOnSubmit={false}
+				elevation={elevation}
 				keyBoardType={keyboardType}
 				maxLength={maxLength}
 				minLength={minLength}
-				onBlur={onBlur}
 				onChange={onChange}
 				onChangeText={onChangeText}
+				onEndEditing={onBlur}
 				onFocus={onFocus}
 				placeholder={placeholder}
 				placeholderTextColor={theme.name === 'dark' ? theme.elevation5 : theme.elevation4}
 				textAlign={textAlign}
-				elevation={elevation}
 			/>
 
 			{hasError && errorMessage && <ErrorMessage hasError={hasError}>{errorMessage}</ErrorMessage>}
@@ -223,5 +227,6 @@ TextInput.defaultProps = {
 	placeholder: '',
 	popoverPressHandler: () => null,
 	popoverText: '',
+	ref: { current: null },
 	textAlign: 'left',
 };
