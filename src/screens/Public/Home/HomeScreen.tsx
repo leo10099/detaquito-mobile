@@ -14,7 +14,7 @@ import { HomeScreenNavigationProps } from '~/typings/navigation';
 import { useSelector } from 'react-redux';
 
 // Selectors
-import { selectAuth } from '~/features/Auth/Auth.selectors';
+import { selectAuth } from '~/store/Auth/Auth.selectors';
 
 export type HomeScreenProps = {
 	navigation: HomeScreenNavigationProps;
