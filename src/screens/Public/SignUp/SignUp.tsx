@@ -33,8 +33,6 @@ export const SignUp = () => {
 						label="Tu Email"
 						marginTop={40}
 						placeholder="usuario@ejemplo.com"
-						hasError
-						errorMessage="Prueba"
 					/>
 					<TextInput
 						autoCompleteType="username"
@@ -65,7 +63,7 @@ export const SignUp = () => {
 						marginTop={40}
 					/>
 
-					<Button variant="primary" isBlock onPress={() => console.log('Pressed!')}>
+					<Button variant="primary" isBlock onPress={() => console.log('Pressed!')} marginTop={40}>
 						Continuar
 					</Button>
 				</Content>
