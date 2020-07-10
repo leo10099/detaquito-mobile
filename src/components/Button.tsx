@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import styled from '~/styles';
@@ -31,8 +31,13 @@ const BaseButton = styled.TouchableHighlight.attrs({ activeOpacity: 1 })<BaseBut
 	justify-content: center;
 `;
 const PrimaryButton = styled(BaseButton)`
-	background-color: ${({ theme }) =>
-		theme.name === 'dark' ? theme.primaryLight : theme.primaryMain};
+	background-color: ${({ theme, disabled }) => {
+		if (disabled) {
+			return theme.name === 'dark' ? theme.elevation5 : theme.elevation3;
+		}
+		return theme.name === 'dark' ? theme.primaryLight : theme.primaryMain;
+	}};
+	opacity: ${({ theme }) => (theme.name === 'dark' ? 0.4 : 0.9)};
 `;
 
 export const Button: React.FC<BaseButtonProps> = ({
@@ -47,6 +52,13 @@ export const Button: React.FC<BaseButtonProps> = ({
 	variant,
 }) => {
 	const theme = useTheme() as ThemeInterface;
+
+	const getPrimaryButtonTextColor = useCallback(() => {
+		if (isDisabled) {
+			return theme.name === 'dark' ? theme.elevation7 : theme.elevation4;
+		}
+		return theme.elevation1;
+	}, [isDisabled, theme.elevation1, theme.elevation4, theme.elevation7, theme.name]);
 
 	const rippleStyles = useMemo(
 		() =>
@@ -66,6 +78,7 @@ export const Button: React.FC<BaseButtonProps> = ({
 			return (
 				<ButtonContainer marginTop={marginTop} marginBottom={marginBottom}>
 					<Ripple
+						disabled={isDisabled}
 						style={rippleStyles.styles}
 						rippleOpacity={0.66}
 						rippleColor={theme.elevation4}
@@ -79,7 +92,7 @@ export const Button: React.FC<BaseButtonProps> = ({
 							rounded={rounded}
 							variant={variant}
 						>
-							<Text color={theme.elevation1} align="center" weight="bold" size={14}>
+							<Text color={getPrimaryButtonTextColor()} align="center" weight="bold" size={14}>
 								{children}
 							</Text>
 						</PrimaryButton>
