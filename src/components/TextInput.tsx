@@ -6,27 +6,32 @@ import Icon from 'react-native-vector-icons/FontAwesome';
 import { useTheme } from 'styled-components/native';
 import { gray, ThemeInterface } from '~/theme';
 import { Text } from './Text';
-import { View, StyleProp, ViewStyle } from 'react-native';
+import { View, StyleProp, ViewStyle, TextInput as Input } from 'react-native';
 
 interface BaseInputProps {
 	autoCompleteType: 'password' | 'username' | 'email' | 'name';
 	elevation?: number;
-	keyboardType: 'default' | 'number-pad' | 'numeric' | 'email-address';
+	hasError: boolean;
+	inputRef?: React.RefObject<Input> | null;
+	isPassword?: boolean;
 	isPopoverVisible?: boolean;
+	isSecureTextEntry?: boolean;
+	keyboardType: 'default' | 'number-pad' | 'numeric' | 'email-address';
 	label?: string;
-	maxLength?: number;
 	marginBottom?: number;
 	marginTop?: number;
+	maxLength?: number;
 	minLength?: number;
 	onBlur?: () => void;
 	onChange?: () => void;
 	onChangeText?: (string) => void;
 	onFocus?: () => void;
+	onSubmitEditing?: () => void;
 	placeholder?: string;
-	popoverText?: string;
 	popoverPressHandler?: (boolean) => void;
+	popoverText?: string;
+	returnKeyType?: 'done' | 'go' | 'next' | 'search' | 'send';
 	textAlign?: 'center' | 'left' | 'right';
-	ref?: React.MutableRefObject<any>;
 }
 
 interface ErrorMessageProps {
@@ -51,7 +56,7 @@ const InputContainer = styled.View<BaseInputProps>`
 
 const BaseTextInput = styled.TextInput<BaseInputProps>`
 	background-color: ${({ theme }) => theme.background};
-	border-color: ${({ theme }) => theme.primaryLight};
+	border-color: ${({ theme, hasError }) => (hasError ? theme.error : theme.primaryLight)};
 	border-radius: 4px;
 	border-width: 1.4px;
 	color: ${({ theme }) => theme.elevation7};
@@ -103,7 +108,9 @@ export const TextInput: React.FC<TextInputProps> = ({
 	elevation,
 	errorMessage,
 	hasError,
+	inputRef,
 	isPopoverVisible,
+	isSecureTextEntry,
 	keyboardType,
 	label,
 	marginBottom,
@@ -114,11 +121,11 @@ export const TextInput: React.FC<TextInputProps> = ({
 	onChange,
 	onChangeText,
 	onFocus,
+	onSubmitEditing,
 	placeholder,
 	popoverPressHandler,
 	popoverText,
-	// eslint-disable-next-line react/prop-types
-	ref,
+	returnKeyType,
 	textAlign,
 }) => {
 	const theme = useTheme() as ThemeInterface;
@@ -162,19 +169,26 @@ export const TextInput: React.FC<TextInputProps> = ({
 				autoCorrect={false}
 				blurOnSubmit={false}
 				elevation={elevation}
-				keyBoardType={keyboardType}
+				hasError={hasError}
+				keyboardType={keyboardType}
 				maxLength={maxLength}
 				minLength={minLength}
 				onChange={onChange}
 				onChangeText={onChangeText}
 				onEndEditing={onBlur}
 				onFocus={onFocus}
+				onSubmitEditing={onSubmitEditing}
 				placeholder={placeholder}
 				placeholderTextColor={theme.name === 'dark' ? theme.elevation5 : theme.elevation4}
+				ref={inputRef}
+				returnKeyType={returnKeyType}
+				secureTextEntry={isSecureTextEntry}
 				textAlign={textAlign}
 			/>
 
-			{hasError && errorMessage && <ErrorMessage hasError={hasError}>{errorMessage}</ErrorMessage>}
+			{hasError && !!errorMessage && (
+				<ErrorMessage hasError={hasError}>{errorMessage}</ErrorMessage>
+			)}
 		</InputContainer>
 	);
 };
@@ -188,7 +202,9 @@ TextInput.propTypes = {
 	]).isRequired,
 	elevation: PropTypes.number,
 	errorMessage: PropTypes.string,
-	hasError: PropTypes.bool,
+	hasError: PropTypes.bool.isRequired,
+	inputRef: PropTypes.any,
+	isSecureTextEntry: PropTypes.bool,
 	isPopoverVisible: PropTypes.bool,
 	keyboardType: PropTypes.oneOf<TextInputProps['keyboardType']>([
 		'default',
@@ -205,17 +221,27 @@ TextInput.propTypes = {
 	onChange: PropTypes.func,
 	onChangeText: PropTypes.func,
 	onFocus: PropTypes.func,
+	onSubmitEditing: PropTypes.func,
 	placeholder: PropTypes.string,
 	popoverPressHandler: PropTypes.func,
 	popoverText: PropTypes.string,
+	returnKeyType: PropTypes.oneOf<TextInputProps['returnKeyType']>([
+		'done',
+		'go',
+		'next',
+		'search',
+		'send',
+	]),
 	textAlign: PropTypes.oneOf<TextInputProps['textAlign']>(['left', 'center', 'right']),
 };
 
 TextInput.defaultProps = {
-	hasError: false,
 	elevation: 4,
 	errorMessage: '',
+	hasError: false,
+	inputRef: null,
 	isPopoverVisible: false,
+	isSecureTextEntry: false,
 	marginBottom: 0,
 	marginTop: 0,
 	maxLength: 200,
@@ -224,9 +250,10 @@ TextInput.defaultProps = {
 	onChange: () => null,
 	onChangeText: () => null,
 	onFocus: () => null,
+	onSubmitEditing: () => null,
 	placeholder: '',
 	popoverPressHandler: () => null,
 	popoverText: '',
-	ref: { current: null },
+	returnKeyType: 'send',
 	textAlign: 'left',
 };

@@ -2,7 +2,6 @@ import { useCallback, useState } from 'react';
 
 // Typings
 import { Validation } from '~/typings';
-import { TextInputProps } from 'react-native';
 
 export const useFormInput = (initialValue: string, validation?: Validation[]) => {
 	let validate;
@@ -34,7 +33,7 @@ export const useFormInput = (initialValue: string, validation?: Validation[]) =>
 	);
 
 	if (validation) {
-		validate = function (input: any) {
+		validate = function (input: any): null | boolean {
 			let result;
 
 			validation.forEach(({ callback: validationFunction, errorMsg }) => {
@@ -52,8 +51,10 @@ export const useFormInput = (initialValue: string, validation?: Validation[]) =>
 
 			if (result === false) {
 				setHasError(true);
+				return false;
 			} else {
 				setHasError(false);
+				return true;
 			}
 		};
 	}
