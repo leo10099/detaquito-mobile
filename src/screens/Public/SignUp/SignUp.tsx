@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useCallback, useMemo, useRef, useState } from 'react';
 
 // Components
 import { Button, Container, Content, Image, TextInput } from '!';
@@ -10,10 +10,11 @@ import Logo from '#/img/logo.png';
 // Hooks
 import { useFormInput } from '~/hooks';
 
-// Validation helpers
-import { aliasValidation, emailValidation, passwordValidation } from '~/utils';
+// Validation helpers and Error Messages
+import { aliasValidation, emailValidation, passwordValidation, passwordsDoNotMatch } from '~/utils';
 
-import { TextInput as Input, Keyboard } from 'react-native';
+// Types
+import { TextInput as Input, Keyboard, GestureResponderEvent } from 'react-native';
 
 export const SignUp = () => {
 	// Refs
@@ -101,11 +102,32 @@ export const SignUp = () => {
 	};
 
 	const onConfirmPasswordReady = (): void => {
-		Keyboard.dismiss();
 		const isValid = validatePasswordConfirm(passwordConfirmation);
-		if (isValid && password !== passwordConfirmation)
-			setPasswordError('Las contraseñas no coinciden');
+		if (isValid) Keyboard.dismiss();
+		if (password !== passwordConfirmation) {
+			setPasswordError(passwordsDoNotMatch.message);
+		}
 	};
+
+	const formSubmitHandler = useCallback(() => {
+		// Perform pre-submit validations
+		if (shouldDisableSubmitButton) return false;
+		if (password !== passwordConfirmation) {
+			setPasswordError(passwordsDoNotMatch.message);
+			return false;
+		}
+
+		// Put together new user data object
+		const newUserData = {
+			alias,
+			email: email.trim(),
+			secret: password,
+		};
+
+		// dispatch(Auth.actions.registrationRequest(newUserData));
+		console.log('newUserData:', newUserData);
+		return true;
+	}, [alias, email, password, passwordConfirmation, setPasswordError, shouldDisableSubmitButton]);
 
 	return (
 		<Container>
@@ -181,7 +203,7 @@ export const SignUp = () => {
 						variant="primary"
 						isBlock
 						isDisabled={shouldDisableSubmitButton}
-						onPress={() => console.log('Pressed!')}
+						onPress={formSubmitHandler}
 						marginTop={40}
 					>
 						Continuar
