@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useMemo, useRef, useState } from 'react';
 
 // Components
 import { Button, Container, Content, Image, TextInput } from '!';
@@ -56,6 +56,26 @@ export const SignUp = () => {
 	const [isAliasPopoverOpen, setIsAliasPopoverOpen] = useState(false);
 	const [isPasswordPopoverOpen, setIsPasswordPopoverOpen] = useState(false);
 
+	// Helpers
+	const shouldDisableSubmitButton = useMemo(() => {
+		if (!email || !alias || !password || !passwordConfirmation) {
+			return true;
+		}
+		if (emailHasError || aliasHasError || passwordHasError || passwordConfirmationHasError) {
+			return true;
+		}
+		return false;
+	}, [
+		alias,
+		aliasHasError,
+		email,
+		emailHasError,
+		password,
+		passwordConfirmation,
+		passwordConfirmationHasError,
+		passwordHasError,
+	]);
+
 	// Handlers
 	const onWrapperClickHandler = (): void => {
 		if (isAliasPopoverOpen === true) {
@@ -75,12 +95,12 @@ export const SignUp = () => {
 		if (isValid && passwordRef.current) passwordRef.current.focus();
 	};
 
-	const onPasswordReady = () => {
+	const onPasswordReady = (): void => {
 		const isValid = validatePassword(password);
 		if (isValid && confirmPasswordRef.current) confirmPasswordRef.current.focus();
 	};
 
-	const onConfirmPasswordReady = () => {
+	const onConfirmPasswordReady = (): void => {
 		Keyboard.dismiss();
 		const isValid = validatePasswordConfirm(passwordConfirmation);
 		if (isValid && password !== passwordConfirmation)
@@ -157,7 +177,13 @@ export const SignUp = () => {
 						returnKeyType="send"
 					/>
 
-					<Button variant="primary" isBlock onPress={() => console.log('Pressed!')} marginTop={40}>
+					<Button
+						variant="primary"
+						isBlock
+						isDisabled={shouldDisableSubmitButton}
+						onPress={() => console.log('Pressed!')}
+						marginTop={40}
+					>
 						Continuar
 					</Button>
 				</Content>
