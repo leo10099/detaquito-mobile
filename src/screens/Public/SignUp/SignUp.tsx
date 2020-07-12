@@ -9,18 +9,33 @@ import Logo from '#/img/logo.png';
 
 // Hooks
 import { useFormInput } from '~/hooks';
+import { useDispatch, useSelector } from 'react-redux';
 
 // Validation helpers and Error Messages
 import { aliasValidation, emailValidation, passwordValidation, passwordsDoNotMatch } from '~/utils';
 
+// Auth slice
+import Auth from '~/store/Auth/Auth.reducer';
+
+// Selectors
+import { selectRegistration } from '~/store/Auth/Auth.selectors';
+
 // Types
-import { TextInput as Input, Keyboard, GestureResponderEvent } from 'react-native';
+import { TextInput as Input, Keyboard } from 'react-native';
 
 export const SignUp = () => {
 	// Refs
 	const aliasRef = useRef<Input>(null);
 	const passwordRef = useRef<Input>(null);
 	const confirmPasswordRef = useRef<Input>(null);
+
+	// Hooks
+	const dispatch = useDispatch();
+
+	// Selectors
+	const { success: createdUser, error, loading } = useSelector(selectRegistration);
+
+	console.log('error', error);
 
 	// Local State
 	const {
@@ -124,10 +139,17 @@ export const SignUp = () => {
 			secret: password,
 		};
 
-		// dispatch(Auth.actions.registrationRequest(newUserData));
-		console.log('newUserData:', newUserData);
+		dispatch(Auth.actions.registrationRequest(newUserData));
 		return true;
-	}, [alias, email, password, passwordConfirmation, setPasswordError, shouldDisableSubmitButton]);
+	}, [
+		alias,
+		dispatch,
+		email,
+		password,
+		passwordConfirmation,
+		setPasswordError,
+		shouldDisableSubmitButton,
+	]);
 
 	return (
 		<Container>

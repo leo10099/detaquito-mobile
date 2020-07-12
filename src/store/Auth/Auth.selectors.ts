@@ -1,4 +1,6 @@
 // Typings
 import { RootState } from '~/store';
+import { StoreSliceAction } from '~/typings';
 
-export const selectAuth = (state: RootState) => state.auth;
+// Registration
+export const selectRegistration = (state: RootState): StoreSliceAction => state.auth.registration;
