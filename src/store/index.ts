@@ -5,7 +5,7 @@ import rootReducer from './rootReducer';
 
 // Redux Sagas
 import createSagaMiddleware from 'redux-saga';
-// import rootSaga from './rootSaga';
+import rootSaga from './rootSaga';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = configureStore({
@@ -14,7 +14,7 @@ const store = configureStore({
 	devTools: process.env.NODE_ENV !== 'production',
 });
 
-// sagaMiddleware.run(rootSaga);
+sagaMiddleware.run(rootSaga);
 
 export type AppDispatch = typeof store.dispatch;
 export type RootState = ReturnType<typeof rootReducer>;

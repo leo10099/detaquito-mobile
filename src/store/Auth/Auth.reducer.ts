@@ -5,7 +5,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { StoreSliceAction, DecodedUserToken } from '~/typings';
 
 // JWT
-import jwt from 'react-native-pure-jwt';
+import jwt from 'expo-jwt';
 
 // Action Types
 export type RegistrationPayload = { email: string; alias: string; secret: string };
@@ -35,14 +35,7 @@ const authSlice = createSlice({
 			registration.error = payload;
 		},
 		registrationSuccess: (state, { payload }) => {
-			const decodedToken = jwt.decode(payload.accessToken) as DecodedUserToken;
-			state.user.alias = decodedToken.alias;
-			state.user.avatar = decodedToken.avatar;
-			state.user.email = decodedToken.email;
-			state.user.id = parseInt(decodedToken.sub, 10);
-
-			state.registration.loading = false;
-			state.registration.success = true;
+			console.log(payload);
 
 			return state;
 		},

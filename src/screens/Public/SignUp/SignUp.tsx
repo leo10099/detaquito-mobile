@@ -36,7 +36,6 @@ export const SignUp = () => {
 	const { success: createdUser, error, loading } = useSelector(selectRegistration);
 
 	console.log('error', error);
-	console.log('API BASE URL:', process.env.API_BASE_URL);
 
 	// Local State
 	const {
@@ -228,6 +227,7 @@ export const SignUp = () => {
 						isDisabled={shouldDisableSubmitButton}
 						onPress={formSubmitHandler}
 						marginTop={40}
+						isLoading={loading}
 					>
 						Continuar
 					</Button>
