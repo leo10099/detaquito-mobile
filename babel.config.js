@@ -4,6 +4,7 @@ module.exports = api => {
 		presets: ['babel-preset-expo'],
 		plugins: [
 			'babel-plugin-styled-components',
+			'inline-dotenv',
 			[
 				'babel-plugin-root-import',
 				{

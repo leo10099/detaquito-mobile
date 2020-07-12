@@ -36,6 +36,7 @@ export const SignUp = () => {
 	const { success: createdUser, error, loading } = useSelector(selectRegistration);
 
 	console.log('error', error);
+	console.log('API BASE URL:', process.env.API_BASE_URL);
 
 	// Local State
 	const {
