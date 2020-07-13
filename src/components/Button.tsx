@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from 'react';
-import { StyleSheet } from 'react-native';
+import { ActivityIndicator, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import styled from '~/styles';
 import Ripple from 'react-native-material-ripple';
@@ -92,9 +92,13 @@ export const Button: React.FC<BaseButtonProps> = ({
 							rounded={rounded}
 							variant={variant}
 						>
-							<Text color={getPrimaryButtonTextColor()} align="center" weight="bold" size={14}>
-								{children}
-							</Text>
+							{isLoading ? (
+								<ActivityIndicator size="large" color={theme.elevation4} />
+							) : (
+								<Text color={getPrimaryButtonTextColor()} align="center" weight="bold" size={14}>
+									{children}
+								</Text>
+							)}
 						</PrimaryButton>
 					</Ripple>
 				</ButtonContainer>
