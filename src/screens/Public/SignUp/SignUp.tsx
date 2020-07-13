@@ -1,4 +1,4 @@
-import React, { useCallback, useMemo, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 // Components
 import { Button, Container, Content, Image, TextInput } from '!';
@@ -12,7 +12,14 @@ import { useFormInput } from '~/hooks';
 import { useDispatch, useSelector } from 'react-redux';
 
 // Validation helpers and Error Messages
-import { aliasValidation, emailValidation, passwordValidation, passwordsDoNotMatch } from '~/utils';
+import {
+	aliasValidation,
+	emailValidation,
+	passwordValidation,
+	passwordsDoNotMatch,
+	serverNotResponding,
+} from '~/utils';
+import { conflictingAlias, conflictingEmail } from '~/store/Auth/Auth.errors';
 
 // Auth slice
 import Auth from '~/store/Auth/Auth.reducer';
@@ -22,8 +29,13 @@ import { selectRegistration } from '~/store/Auth/Auth.selectors';
 
 // Types
 import { TextInput as Input, Keyboard } from 'react-native';
+import { SignUpScreenNavigationProps } from '~/typings';
 
-export const SignUp = () => {
+interface SignUpProps {
+	navigation: SignUpScreenNavigationProps;
+}
+
+export const SignUp: React.FC<SignUpProps> = ({ navigation }) => {
 	// Refs
 	const aliasRef = useRef<Input>(null);
 	const passwordRef = useRef<Input>(null);
@@ -34,8 +46,6 @@ export const SignUp = () => {
 
 	// Selectors
 	const { success: createdUser, error, loading } = useSelector(selectRegistration);
-
-	console.log('error', error);
 
 	// Local State
 	const {
@@ -150,6 +160,31 @@ export const SignUp = () => {
 		setPasswordError,
 		shouldDisableSubmitButton,
 	]);
+
+	// Effects
+
+	// Handle successful registration
+	useEffect(() => {
+		if (createdUser) {
+			navigation.push('Home');
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [createdUser]);
+
+	// Handle unsuccessful registration
+	useEffect(() => {
+		switch (error?.message) {
+			case conflictingEmail.message:
+				return setEmailError(conflictingEmail.friendlyMessage);
+			case conflictingAlias.message:
+				return setAliasError(conflictingAlias.friendlyMessage);
+			case serverNotResponding.message:
+				return setPasswordError(serverNotResponding.message);
+			default:
+				return () => {};
+		}
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, [error]);
 
 	return (
 		<Container>

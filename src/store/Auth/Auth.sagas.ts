@@ -32,7 +32,7 @@ function* trySignUp({ payload }: BaseAction) {
 
 		return yield put(actions.registrationSuccess(data));
 	} catch (e) {
-		return yield put(actions.registrationFailure(e));
+		return yield put(actions.registrationFailure(e.response.data));
 	}
 }
 

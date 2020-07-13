@@ -2,10 +2,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // Typings
-import { StoreSliceAction, DecodedUserToken } from '~/typings';
-
-// JWT
-import jwt from 'expo-jwt';
+import { StoreSliceAction } from '~/typings';
 
 // Action Types
 export type RegistrationPayload = { email: string; alias: string; secret: string };
@@ -35,7 +32,13 @@ const authSlice = createSlice({
 			registration.error = payload;
 		},
 		registrationSuccess: (state, { payload }) => {
-			console.log(payload);
+			state.user.alias = payload.alias;
+			state.user.avatar = payload.avatar;
+			state.user.email = payload.email;
+			state.user.id = payload.id;
+
+			state.registration.loading = false;
+			state.registration.success = true;
 
 			return state;
 		},

@@ -11,13 +11,16 @@ import { SignUp } from '$/Public/SignUp/SignUp';
 // Helpers
 import { RootNavigatorScreenOptions } from './RootNavigator.helpers';
 
+// Typings
+import { RootStackParamList } from '~/typings';
+
 export const RootNavigator: React.FC = () => {
-	const Stack = createStackNavigator();
+	const Stack = createStackNavigator<RootStackParamList>();
 
 	return (
 		<NavigationContainer>
 			<Stack.Navigator screenOptions={RootNavigatorScreenOptions}>
-				<Stack.Screen name="De Taquito" component={HomeScreen} />
+				<Stack.Screen name="Home" component={HomeScreen} />
 				<Stack.Screen name="SignUp" component={SignUp} />
 			</Stack.Navigator>
 		</NavigationContainer>
