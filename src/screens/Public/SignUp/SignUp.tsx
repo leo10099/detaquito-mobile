@@ -191,6 +191,9 @@ export const SignUp: React.FC<SignUpProps> = ({ navigation }) => {
 			<TouchListener onTouchStart={onWrapperClickHandler}>
 				<Content>
 					<Image source={Logo} width={120} heigth={80} />
+					<Button variant="primary" icon="google" isBlock={false} onPress={() => {}}>
+						Registrate con Google
+					</Button>
 					<TextInput
 						autoCompleteType="email"
 						elevation={isAliasPopoverOpen ? 0 : 4}

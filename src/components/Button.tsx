@@ -35,8 +35,9 @@ const BaseButton = styled.TouchableHighlight.attrs({ activeOpacity: 1 })<BaseBut
 	border-radius: ${({ rounded }) => (rounded ? '10px' : '4px')};
 	letter-spacing: 0.6px;
 	display: flex;
-	height: 48px;
+	height: 54px;
 	justify-content: center;
+	padding: 10px 20px;
 `;
 const PrimaryButton = styled(BaseButton)`
 	background-color: ${({ theme, disabled }) => {
@@ -116,7 +117,12 @@ export const Button: React.FC<BaseButtonProps> = ({
 								{isLoading ? (
 									<ActivityIndicator size="large" color={theme.elevation4} />
 								) : (
-									<Text color={getPrimaryButtonTextColor()} align="center" weight="bold" size={14}>
+									<Text
+										color={getPrimaryButtonTextColor()}
+										align="center"
+										weight="bolder"
+										size={14}
+									>
 										{children}
 									</Text>
 								)}
