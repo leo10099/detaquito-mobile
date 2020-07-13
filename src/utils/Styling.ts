@@ -38,7 +38,8 @@ export const CenterAbsolutely = () => css`
 `;
 
 export const FlexRow = () => css`
-	display: flex;
+	flex: 1;
+	flex-direction: row;
 `;
 
 export const FlexColumn = () => css`

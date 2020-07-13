@@ -2,14 +2,17 @@ import React, { useCallback, useMemo } from 'react';
 import { ActivityIndicator, StyleSheet } from 'react-native';
 import PropTypes from 'prop-types';
 import styled from '~/styles';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import Ripple from 'react-native-material-ripple';
 import { Text } from './Text';
 import { useTheme } from 'styled-components/native';
-import { ThemeInterface } from '~/theme';
+import { gray, ThemeInterface } from '~/theme';
+import { FlexRowCentered } from '~/utils';
 
 interface BaseButtonProps {
 	children: string | React.ReactChild;
 	onPress: () => void;
+	icon?: string;
 	isBlock?: boolean;
 	isDisabled?: boolean;
 	isLoading?: boolean;
@@ -18,9 +21,14 @@ interface BaseButtonProps {
 	rounded?: boolean;
 	variant: 'default' | 'primary';
 }
+
 const ButtonContainer = styled.View`
 	margin-bottom: ${({ marginBottom }) => (marginBottom ? marginBottom + 'px' : 'auto')};
 	margin-top: ${({ marginTop }) => (marginTop ? marginTop + 'px' : 'auto')};
+`;
+
+const ButtonContent = styled.View`
+	${FlexRowCentered()}
 `;
 
 const BaseButton = styled.TouchableHighlight.attrs({ activeOpacity: 1 })<BaseButtonProps>`
@@ -40,10 +48,13 @@ const PrimaryButton = styled(BaseButton)`
 	opacity: ${({ theme }) => (theme.name === 'dark' ? 0.4 : 0.9)};
 `;
 
+const iconStyle = { paddingRight: 10 };
+
 export const Button: React.FC<BaseButtonProps> = ({
 	children,
 	onPress,
 	isBlock,
+	icon,
 	isDisabled,
 	isLoading,
 	marginBottom,
@@ -92,13 +103,24 @@ export const Button: React.FC<BaseButtonProps> = ({
 							rounded={rounded}
 							variant={variant}
 						>
-							{isLoading ? (
-								<ActivityIndicator size="large" color={theme.elevation4} />
-							) : (
-								<Text color={getPrimaryButtonTextColor()} align="center" weight="bold" size={14}>
-									{children}
-								</Text>
-							)}
+							<ButtonContent>
+								{!!icon && (
+									<Icon
+										name={icon}
+										solid
+										style={iconStyle}
+										size={24}
+										color={theme.name === 'dark' ? gray.gray700 : gray.gray100}
+									/>
+								)}
+								{isLoading ? (
+									<ActivityIndicator size="large" color={theme.elevation4} />
+								) : (
+									<Text color={getPrimaryButtonTextColor()} align="center" weight="bold" size={14}>
+										{children}
+									</Text>
+								)}
+							</ButtonContent>
 						</PrimaryButton>
 					</Ripple>
 				</ButtonContainer>
@@ -120,9 +142,24 @@ export const Button: React.FC<BaseButtonProps> = ({
 							rounded={rounded}
 							variant={variant}
 						>
-							<Text align="center" weight="bold" size={14}>
-								{children}
-							</Text>
+							<ButtonContent>
+								{icon && (
+									<Icon
+										name={icon}
+										solid
+										style={iconStyle}
+										size={24}
+										color={theme.name === 'dark' ? gray.gray700 : gray.gray100}
+									/>
+								)}
+								{isLoading ? (
+									<ActivityIndicator size="large" color={theme.elevation4} />
+								) : (
+									<Text color={getPrimaryButtonTextColor()} align="center" weight="bold" size={14}>
+										{children}
+									</Text>
+								)}
+							</ButtonContent>
 						</BaseButton>
 					</Ripple>
 				</ButtonContainer>
@@ -134,6 +171,7 @@ export const Button: React.FC<BaseButtonProps> = ({
 Button.propTypes = {
 	isBlock: PropTypes.bool,
 	children: PropTypes.oneOfType([PropTypes.string, PropTypes.element]).isRequired,
+	icon: PropTypes.string,
 	isDisabled: PropTypes.bool,
 	isLoading: PropTypes.bool,
 	marginTop: PropTypes.number,
@@ -146,6 +184,7 @@ Button.propTypes = {
 // Default Props
 Button.defaultProps = {
 	isBlock: false,
+	icon: '',
 	isDisabled: false,
 	isLoading: false,
 	marginBottom: 0,
