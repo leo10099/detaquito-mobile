@@ -5,7 +5,7 @@ import PropTypes from 'prop-types';
 
 interface ImageProps {
 	heigth?: number;
-	margin?: string;
+	margin?: number;
 	source: ImageSourcePropType;
 	width: number;
 }
@@ -24,7 +24,7 @@ export const Image: React.FC<ImageProps> = ({ heigth, margin, source, width }) =
 
 Image.propTypes = {
 	heigth: PropTypes.number,
-	margin: PropTypes.string,
+	margin: PropTypes.number,
 	source: PropTypes.number.isRequired,
 	width: PropTypes.number.isRequired,
 };
