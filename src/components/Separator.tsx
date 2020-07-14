@@ -58,5 +58,7 @@ Separator.defaultProps = {
 
 Container.displayName = 'Separator-Container';
 Line.displayName = 'Separator-Line';
+Left.displayName = 'Separator-LeftLine';
+Right.displayName = 'Separator-RightLine';
 
 export default Separator;
