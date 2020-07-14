@@ -10,7 +10,6 @@ import { SignUp } from '$/Public/SignUp/SignUp';
 
 // Helpers
 import { RootNavigatorScreenOptions } from './RootNavigator.helpers';
-
 // Typings
 import { RootStackParamList } from '~/typings';
 
