@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
 // Components
-import { Button, Container, Content, Image, Separator, TextInput } from '!';
+import { Button, Container, Content, Header, Image, Separator, TextInput } from '!';
 import { TouchListener } from './SignUp.Styles';
 
 // Assets
@@ -190,13 +190,16 @@ export const SignUp: React.FC<SignUpProps> = ({ navigation }) => {
 		<Container>
 			<TouchListener onTouchStart={onWrapperClickHandler}>
 				<Content>
-					<Image source={Logo} width={120} heigth={80} />
+					<Image source={Logo} width={120} heigth={80} margin={20} />
 
-					<Button variant="primary" icon="google" isBlock={false} onPress={() => {}} marginTop={40}>
+					<Header size={1}>Registrate</Header>
+					<Header size={3}>para poder jugar</Header>
+
+					<Button variant="primary" icon="google" isBlock={false} onPress={() => {}} marginTop={60}>
 						Registrate con Google
 					</Button>
 
-					<Separator marginTop={40}>O</Separator>
+					<Separator marginTop={60}>O</Separator>
 
 					<TextInput
 						autoCompleteType="email"

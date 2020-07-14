@@ -121,7 +121,7 @@ export const Button: React.FC<BaseButtonProps> = ({
 										color={getPrimaryButtonTextColor()}
 										align="center"
 										weight="bolder"
-										size={14}
+										size={15}
 									>
 										{children}
 									</Text>

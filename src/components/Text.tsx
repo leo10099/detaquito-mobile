@@ -8,6 +8,7 @@ type TextProps = {
 	align?: 'center' | 'left' | 'right';
 	children: React.ReactNode;
 	color?: string;
+	letterSpacing?: number;
 	marginBottom?: number;
 	marginTop?: number;
 	size?: number;
@@ -32,6 +33,7 @@ const fontWeight = StyleSheet.create({
 const BaseText = styled.Text<TextProps>`
 	color: ${({ color, theme }) => (color ? color : theme.elevation7)};
 	font-size: ${({ size }) => size}px;
+	letter-spacing: ${({ letterSpacing }) => `${letterSpacing}px}`};
 	margin-bottom: ${({ marginBottom }) => `${marginBottom}px}`};
 	margin-top: ${({ marginTop }) => `${marginTop}px}`};
 	text-align: ${({ align }) => align};
@@ -40,6 +42,7 @@ const BaseText = styled.Text<TextProps>`
 export const Text: React.FC<TextProps> = ({
 	align,
 	children,
+	letterSpacing,
 	marginBottom,
 	marginTop,
 	color,
@@ -50,6 +53,7 @@ export const Text: React.FC<TextProps> = ({
 		<BaseText
 			align={align}
 			color={color}
+			letterSpacing={letterSpacing}
 			marginBottom={marginBottom}
 			marginTop={marginTop}
 			size={size}
@@ -64,6 +68,7 @@ Text.propTypes = {
 	align: PropTypes.oneOf<TextProps['align']>(['center', 'left', 'right']),
 	children: PropTypes.string.isRequired,
 	color: PropTypes.string,
+	letterSpacing: PropTypes.number,
 	marginBottom: PropTypes.number,
 	marginTop: PropTypes.number,
 	size: PropTypes.number,
@@ -73,6 +78,7 @@ Text.propTypes = {
 Text.defaultProps = {
 	align: 'left',
 	color: '',
+	letterSpacing: 0.7,
 	marginBottom: 0,
 	marginTop: 0,
 	size: 20,
