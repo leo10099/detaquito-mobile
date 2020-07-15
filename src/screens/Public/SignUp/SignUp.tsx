@@ -11,21 +11,25 @@ import Logo from '#/img/logo.png';
 import { useFormInput } from '~/hooks';
 import { useDispatch, useSelector } from 'react-redux';
 
-// Validation helpers and Error Messages
+// Helpers and Error Messages
 import {
 	aliasValidation,
 	emailValidation,
 	passwordValidation,
 	passwordsDoNotMatch,
 	serverNotResponding,
+	buildGoogleProfile,
 } from '~/utils';
 import { conflictingAlias, conflictingEmail } from '~/store/Auth/Auth.errors';
+
+// Google Auth
+import * as Google from 'expo-google-app-auth';
 
 // Auth slice
 import Auth from '~/store/Auth/Auth.reducer';
 
 // Selectors
-import { selectRegistration } from '~/store/Auth/Auth.selectors';
+import { selectRegistration, selectGoogleAuthentication } from '~/store/Auth/Auth.selectors';
 
 // Types
 import { TextInput as Input, Keyboard } from 'react-native';
@@ -45,7 +49,12 @@ export const SignUp: React.FC<SignUpProps> = ({ navigation }) => {
 	const dispatch = useDispatch();
 
 	// Selectors
-	const { success: createdUser, error, loading } = useSelector(selectRegistration);
+	const { success: createdUserWithLocalStrategy, error, loading } = useSelector(selectRegistration);
+	const {
+		success: createdUserWithGoogleStrategy,
+		error: googleAuthError,
+		loading: googleAuthLoading,
+	} = useSelector(selectGoogleAuthentication);
 
 	// Local State
 	const {
@@ -161,17 +170,30 @@ export const SignUp: React.FC<SignUpProps> = ({ navigation }) => {
 		shouldDisableSubmitButton,
 	]);
 
+	const signUpWithGoogleHandler = async (): Promise<void> => {
+		const logInResult = await Google.logInAsync({
+			androidClientId: process.env.GOOGLE_OAUTH_CLIENT_ID,
+			scopes: ['profile', 'email'],
+		});
+
+		if (logInResult.type === 'success') {
+			const { user } = logInResult;
+			const profile = buildGoogleProfile(user);
+			dispatch(Auth.actions.googleAuthenticationRequest(profile));
+		}
+	};
+
 	// Effects
 
 	// Handle successful registration
 	useEffect(() => {
-		if (createdUser) {
+		if (createdUserWithLocalStrategy || createdUserWithGoogleStrategy) {
 			navigation.push('Home');
 		}
 		// eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [createdUser]);
+	}, [createdUserWithLocalStrategy, createdUserWithGoogleStrategy]);
 
-	// Handle unsuccessful registration
+	// Handle unsuccessful local strategy registration
 	useEffect(() => {
 		switch (error?.message) {
 			case conflictingEmail.message:
@@ -186,6 +208,12 @@ export const SignUp: React.FC<SignUpProps> = ({ navigation }) => {
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [error]);
 
+	// Handle unsuccessful Google registration
+	useEffect(() => {
+		// TODO --> Display error notification
+		console.log(googleAuthError);
+	}, [googleAuthError]);
+
 	return (
 		<Container>
 			<TouchListener onTouchStart={onWrapperClickHandler}>
@@ -195,7 +223,13 @@ export const SignUp: React.FC<SignUpProps> = ({ navigation }) => {
 					<Header size={1}>Registrate</Header>
 					<Header size={3}>para poder jugar</Header>
 
-					<Button variant="primary" icon="google" isBlock={false} onPress={() => {}} marginTop={60}>
+					<Button
+						variant="primary"
+						icon="google"
+						isBlock={false}
+						onPress={signUpWithGoogleHandler}
+						marginTop={60}
+					>
 						Registrate con Google
 					</Button>
 

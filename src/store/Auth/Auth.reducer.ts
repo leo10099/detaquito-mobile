@@ -20,6 +20,10 @@ const authSlice = createSlice({
 			error: null,
 			loading: false,
 		} as StoreSliceAction,
+		googleAuth: {
+			error: null,
+			loading: false,
+		} as StoreSliceAction,
 	},
 	reducers: {
 		// Registration
@@ -38,6 +42,26 @@ const authSlice = createSlice({
 			state.user.id = payload.id;
 
 			state.registration.loading = false;
+			state.registration.success = true;
+
+			return state;
+		},
+		// Google sign-up and sign-in
+		googleAuthenticationRequest: ({ googleAuth }, { payload }) => {
+			delete googleAuth.success;
+			googleAuth.loading = true;
+		},
+		googleAuthenticationFailure: ({ googleAuth }, { payload }) => {
+			googleAuth.loading = false;
+			googleAuth.error = payload;
+		},
+		googleAuthenticationSuccess: (state, { payload }) => {
+			state.user.alias = payload.alias;
+			state.user.avatar = payload.avatar;
+			state.user.email = payload.email;
+			state.user.id = payload.id;
+
+			state.googleAuth.loading = false;
 			state.registration.success = true;
 
 			return state;

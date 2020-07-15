@@ -2,5 +2,8 @@
 import { RootState } from '~/store';
 import { StoreSliceAction } from '~/typings';
 
-// Registration
+// Local Strategy Registration
 export const selectRegistration = (state: RootState): StoreSliceAction => state.auth.registration;
+// Google Authentication
+export const selectGoogleAuthentication = (state: RootState): StoreSliceAction =>
+	state.auth.googleAuth;
